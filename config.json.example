@@ -1,0 +1,12 @@
+{
+    "batchSize": 10000,
+    "kafkaHost": "localhost:9092",
+    "importer": {
+        "topic.simple":{
+            "topicPrefix": "NestKepElEnergy_String"
+        },
+        "topic.json": {
+            
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "node-kafka-csv-importer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "run-importer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kafka-node": "^3.0.0",
+    "n-readlines": "^1.0.0"
+  }
+}

@@ -1,12 +1,12 @@
 const fs = require("fs")
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'))
 const kafka = require('kafka-node')
-const simulationFile = '/Users/robert.rajakone/Downloads/archive_kepelenergy_1mrd.sql'
 const lineByLine = require('n-readlines')
 const makePromise = require('./makePromise')
 const tee = require('./tee')
 
 // config
+const csvFile = config.csvFile
 const topicname_prefix = config.importer['topic.simple'].topicPrefix
 const batchSize = config.batchSize
 const kafkaHost = config.kafkaHost
@@ -27,7 +27,7 @@ const dataSource = () => {
         return obj
     }
 
-    let liner = new lineByLine(simulationFile)
+    let liner = new lineByLine(csvFile)
     return {
         next: batchSize => {
             let count = 0

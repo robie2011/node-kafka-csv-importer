@@ -71,7 +71,7 @@ const simpleRawMapper = entry => {
         topic: topicname_prefix + "_" + entry.numericId,
         messages: [entry.value],
         key: entry.quality,
-        attributes: 0, // no compression
+        attributes: 1, // no compression
         timestamp: entry.timestamp
     }
 }

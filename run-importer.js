@@ -33,9 +33,14 @@ const dataSource = () => {
             let count = 0
             let lines = []
             let line = liner.next()
+            if (!line) {
+                return [];
+            }
+
             while (line && count < batchSize) {
                 ++count
                 lines.push(line.toString('utf8'))
+                line = liner.next()
             }
 
             return lines.map(lineExtractor)
@@ -72,14 +77,23 @@ const simpleRawMapper = entry => {
 }
 
 createProducer().then(producer => {
-    console.log("batchSize: ", batchSize)
+    let dateStart = new Date()
+    console.log("batchSize: ", batchSize, "date start: ", dateStart)
     let batchCount = 0
     const source = dataSource()
     const runBatchLoop = () => {
         batchCount++
-        let produceRequests = source
-            .next(batchSize)
-            .map(simpleRawMapper)
+        let produceRequests = source.next(batchSize).map(simpleRawMapper)
+        if (!produceRequests.length) {
+            let dateEnd = new Date()
+            console.log("no more entries. finishing")
+            console.log(
+                "time end: ", dateEnd, 
+                "total min.", ((dateEnd-dateStart)/1000/60).toFixed(1))
+            
+            process.exit(0)
+            return;
+        }
 
         console.log("sending batch#:", batchCount)
         producer.send(produceRequests, (err, data) => {
